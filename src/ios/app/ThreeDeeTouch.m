@@ -27,9 +27,6 @@
     }
     
     NSString* prefix = @"App-Prefs:";
-    if(SYSTEM_VERSION_LESS_THAN(@"10.0")){
-            prefix = @"prefs:";
-    }
     
     if ([self do_open:[prefix stringByAppendingString:@"root=FACETIME"]]) {
         avail = YES;
@@ -170,4 +167,3 @@ double lastEvent = 0;
     }
 }
 @end
-
