@@ -9,12 +9,30 @@
     self.initDone = YES;
 }
 
+- (BOOL)do_open:(NSString *)pref {
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:pref]]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+
 - (void) isAvailable:(CDVInvokedUrlCommand *)command {
     
     bool avail = NO;
     
     if (IsAtLeastiOSVersion(@"9")) {
         avail = [self.viewController.traitCollection forceTouchCapability] == UIForceTouchCapabilityAvailable;
+    }
+    
+    NSString* prefix = @"App-Prefs:";
+    if(SYSTEM_VERSION_LESS_THAN(@"10.0")){
+            prefix = @"prefs:";
+    }
+    
+    if ([self do_open:[prefix stringByAppendingString:@"root=FACETIME"]]) {
+        avail = YES;
     }
     
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:avail];
